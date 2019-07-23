@@ -1,13 +1,13 @@
 # Python によるプログラミング：第 10 章　
-# 実習課題 10.1 Flag ファイルの分割
+# 実習課題 10.1 Cell ファイルの分割
 # --------------------------
-# プログラム名: p10flag.py
+# プログラム名: p10cell.py
 
 from tkinter import Tk, Canvas, CENTER
 from dataclasses import dataclass, field
 
 @dataclass
-class Flag:
+class Cell:
     canvas: Canvas
     width: int
     height: int
@@ -50,7 +50,7 @@ class Flag:
     def is_open(self, i, j):
         return self.opened[i][j]
 
-    def update(self, i, j):  # トグル式に切り換える。
+    def update(self, i, j):  # 色をローテーションする
         self.flag[i][j] = (self.flag[i][j] + 1) % 3
 
     def draw(self, i, j, text=""):

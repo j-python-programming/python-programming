@@ -286,7 +286,6 @@ id_text = canvas.create_text(
 tk.update()
 
 while not game.start:    # ひたすら SPACE を待つ
-    tk.update_idletasks()
     tk.update()
     time.sleep(DURATION)
 
@@ -404,6 +403,5 @@ while True:
         redraw_spear(spear)   # 槍の再描画
     if candy:
         redraw_candy(candy)   # キャンディの再描画
-    tk.update_idletasks()     # Window描画を更新する。
     tk.update()               # 描画が画面に反映される。
     time.sleep(DURATION)      # 次に描画するまで、sleepする。

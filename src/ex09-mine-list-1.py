@@ -28,10 +28,10 @@ class Board:
     is_open: list = field(init=False)
 
     def __post_init__(self):
-        self.mine = self.false_list()
-        self.is_open = self.false_list()
+        self.mine = self.false_table()
+        self.is_open = self.false_table()
  
-    def false_list(self):
+    def false_table(self):
         cells = [[False for y in range(self.height)]
                         for x in range(self.width)]
         return cells

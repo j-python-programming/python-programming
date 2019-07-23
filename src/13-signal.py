@@ -19,7 +19,7 @@ while loop:
         if event.type == pygame.QUIT:
             loop = False
     pygame.draw.circle(screen, COLOR_LIST[signal], center, radius)
-    signal = (signal + 1) % len(COLOR_LIST) # トグル式に変える
+    signal = (signal + 1) % len(COLOR_LIST) # 色をローテーションする
     pygame.display.flip()
     clock.tick(1) # 1 秒経過を待つ
 pygame.quit()

@@ -17,7 +17,7 @@ clock = pygame.time.Clock()   # 時計オブジェクト
 x, y = (100, 100)   # ボールの初期位置
 vx = 10             # ボールの速度
 
-while LOOP:  # 描画の無限ループ
+while LOOP:  # 描画のループ
     for event in pygame.event.get():
         # 「閉じる」ボタンを処理する
         if event.type == pygame.QUIT: LOOP = False

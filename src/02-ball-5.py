@@ -16,8 +16,8 @@ class Ball:
     id: int
     x: int
     y: int
-    vx: int
     d: int
+    vx: int
     c: str
 
 @dataclass
@@ -29,10 +29,10 @@ class Border:
 
 # ボールを初期位置に描画し、生成された「辞書」を返す。
 # 直径 d は、省略されたら 3 に、色 c は、省略されたら "black" になる
-def make_ball(x, y, vx, d=3, c="black"):
+def make_ball(x, y, d=3, vx=2, c="black"):
     id = canvas.create_rectangle(x, y, x + d, y + d,
                                  fill=c, outline=c)
-    return Ball(id, x, y, vx, d, c)
+    return Ball(id, x, y, d, vx, c)
 
 # ボールの移動を、プログラム本体から抜き出した。
 def move_ball( ball ):
@@ -66,10 +66,10 @@ make_walls(
 
 # 複数のボールを「リスト」として準備する。
 balls = [
-    make_ball(100, 150, 2, 20, "darkblue"),
-    make_ball(200, 250, -4, 25, "orange"),
-    make_ball(300, 350, -2, 10, "green"),
-    make_ball(400, 450, 4, 5, "darkgreen")
+    make_ball(100, 150, 20, 2, "darkblue"),
+    make_ball(200, 250, 25, -4, "orange"),
+    make_ball(300, 350, 10, -2, "green"),
+    make_ball(400, 450, 5, 4, "darkgreen")
     ]
 
 while True:

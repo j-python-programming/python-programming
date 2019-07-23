@@ -154,7 +154,7 @@ while True:
     # ボールがパドルの左に届き、ボールの高さがパドルの幅に収まっている
     if (ball.x + ball.d >= paddle.x \
         and paddle.y <= ball.y <= paddle.y + paddle.h):
-        change_paddle_color(paddle, random.choice(COLORS))#色を変える
+        change_paddle_color(paddle, random.choice(COLORS)) # 色を変える
         ball.vx = -ball.vx     # ボールの移動方向が変わる
 
     # ブロックが存在し、ボールのX位置がブロックに届き、Y位置もブロックの範囲内
@@ -167,6 +167,5 @@ while True:
 
     redraw_paddle(paddle)     # パドルの再描画
     redraw_ball(ball)         # ボールの再描画
-    tk.update_idletasks()     # イベント取得に必要
     tk.update()               # 描画が画面に反映される。
     time.sleep(DURATION)      # 次に描画するまで、sleepする。

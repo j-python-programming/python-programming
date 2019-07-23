@@ -1,7 +1,7 @@
 # Python によるプログラミング：第 9 章　
 # 練習問題 9.1 マウスイベントの処理
 # --------------------------
-# プログラム名: 09-mouse-event.py
+# プログラム名: ex09-mouse-event.py
 
 from tkinter import Tk, Canvas
 from dataclasses import dataclass, field
@@ -20,10 +20,10 @@ class Board:
     is_open: list = field(init=False)
 
     def __post_init__(self):
-        self.mine = self.false_list()
-        self.is_open = self.false_list()
+        self.mine = self.false_table()
+        self.is_open = self.false_table()
     
-    def false_list(self):
+    def false_table(self):
         cells = [[False for y in range(self.height)]
                         for x in range(self.width)]
         return cells

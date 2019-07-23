@@ -10,9 +10,9 @@ BOX_SIZE = 100  # サイズ
 BOX_GAP = 20    # 間隔
 
 BLACK = (0, 0, 0)
-NUM_BOXES = 4
+NUM_BOXES = 3
 # 箱の数だけ、色も用意する
-COLOR_LIST = [(255, 0, 0), (0, 255, 0), (255, 255, 0), (0, 0, 255)]
+COLOR_LIST = [(255, 0, 0), (0, 255, 0), (255, 255, 0)]
 
 @dataclass
 class Box:

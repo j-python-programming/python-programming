@@ -1,5 +1,5 @@
 # Python によるプログラミング：第 6 章
-#  6.1 複数オブジェクトのリスト化　準備
+#  6.1 オブジェクト導入の準備
 # --------------------------
 # プログラム名: 06-ex0-ball.py
 
@@ -20,7 +20,7 @@ class Ball:
     d: int
     dx: int
     dy: int
-    c: str = "black"
+    c: str = "black" # 属性のデフォルト値を"black"とする
 
     def move(self):                         # 移動する。
         self.x += self.dx

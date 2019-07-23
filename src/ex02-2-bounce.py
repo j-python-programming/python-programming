@@ -14,9 +14,9 @@ class Ball:
     id: int
     x: int
     y: int
+    d: int
     vx: int
     vy: int
-    d: int
     c: str
 
 @dataclass
@@ -27,10 +27,10 @@ class Border:
     bottom: int
 
 # ボールを初期位置に描画し、生成されたdataclassを返す。
-def make_ball(x, y, vx, vy, d=3, c="black"):
+def make_ball(x, y, d, vx, vy, c="black"):
     id = canvas.create_rectangle(x, y, x + d, y + d,
                             fill=c, outline=c)
-    return Ball(id, x, y, vx, vy, d, c)
+    return Ball(id, x, y, d, vx, vy, c)
 
 # ボールの移動: xとyのそれぞれに変位がある。
 def move_ball(ball):
@@ -47,12 +47,12 @@ def redraw_ball(ball):
                 ball.x + ball.d, ball.y + ball.d)
 
 tk = Tk()
-canvas = Canvas(tk, width=500, height=300, bd=0)
+canvas = Canvas(tk, width=800, height=600, bd=0)
 canvas.pack()
 tk.update()
 
 # 壁の座標を与える。(left, right, top, bottom)
-border = Border(100, 400, 100, 200)
+border = Border(100, 700, 100, 500)
 
 make_walls(
     border.left,
@@ -61,7 +61,7 @@ make_walls(
     border.bottom - border.top
     )
 
-ball = make_ball(100, 100, 20, 10, 60, "darkblue")  # ボールの初期化
+ball = make_ball(100, 100, 60, 20, 10, "darkblue")  # ボールの初期化
 
 while True:
     move_ball(ball)

@@ -12,4 +12,4 @@ canvas.pack()
 canvas.create_polygon(100, 100, 0, 200, 200, 200,
                       outline="red", fill="red")
 canvas.create_rectangle(0, 200, 200, 300,
-                        outline="lightgray", fill="lightgray")
+                        outline="gray", fill="gray")

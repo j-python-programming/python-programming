@@ -13,16 +13,16 @@ class Board:
     is_open: list = field(init=False)
 
     def __post_init__(self):
-        self.mine = self.false_list()
-        self.is_open = self.false_list()
+        self.mine = self.false_table()
+        self.is_open = self.false_table()
     
-    def false_list(self):
+    def false_table(self):
         cells = []
-        for i in range(self.width):
-            row = []
-            for j in range(self.height):
-                row.append(False)
-            cells.append(row)
+        for x in range(self.width):
+            vert = []   # 縦方向のリスト
+            for y in range(self.height):
+                vert.append(False)
+            cells.append(vert)
         return cells
 
 board = Board(3, 3)

@@ -31,10 +31,12 @@ whites.append(Ball(100-100, 200, 10, 0, WHITE))
 reds.append(Ball(400, 100, -10, 0, RED))
 reds.append(Ball(400+100, 200, -10, 0, RED))
 
+done = False
 for i in range(60):
     for event in pygame.event.get():
         # 「閉じる」ボタンを処理する
-        if event.type == pygame.QUIT: i = 60
+        if event.type == pygame.QUIT: done = True
+    if done: break
     clock.tick(FPS)
     for ball in reds + whites:
         ball.move()

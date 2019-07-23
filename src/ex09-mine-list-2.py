@@ -30,10 +30,10 @@ class Board:
     is_open: list = field(init=False)
 
     def __post_init__(self):
-        self.mine = self.false_list()
-        self.is_open = self.false_list()
+        self.mine = self.false_table()
+        self.is_open = self.false_table()
  
-    def false_list(self):
+    def false_table(self):
         cells = [[False for y in range(self.height)]
                         for x in range(self.width)]
         return cells
@@ -59,17 +59,17 @@ class Board:
                 print("mine =", x, ",", y)     # 開発時の確認用
 
     # 周囲のマス目を表すタプルのリストを作成する。
-    def neighbours(self, i, j):
-        x = [(i-1, j-1), (i-1, j), (i-1, j+1), 
-             (i,   j-1),           (i,   j+1), 
-             (i+1, j-1), (i+1, j), (i+1, j+1)]
+    def neighbors(self, i, j):
+        x = [(i-1, j-1), (i, j-1), (i+1, j-1), 
+             (i-1, j  ),           (i+1, j), 
+             (i-1, j+1), (i, j+1), (i+1, j+1)]
         value = [v for v in x if self.is_valid(v[0], v[1])]
         return value
 
     # 周囲にある地雷の数を数える
     def count(self, i, j):
         c = 0
-        for x in self.neighbours(i, j):  # タプルを取り出す。
+        for x in self.neighbors(i, j):  # タプルを取り出す。
             # 有効なマス目で地雷の場所が True なら
             if (self.is_valid(x[0], x[1])
                 and self.mine[x[0]][x[1]]):
@@ -79,8 +79,8 @@ class Board:
 # ボードの描画
 def draw_board(board):
     canvas.delete("all")                  # 一旦クリアすす。
-    for i in range(board.width):          # x は幅方向の添え字
-        for j in range(board.height):     # y は、高さ方向の添え字
+    for i in range(board.width):          # i は幅方向の添え字
+        for j in range(board.height):     # j は、高さ方向の添え字
             text = ""
             if board.is_open[i][j]:  # マス目が開いていて
                 if board.mine[i][j]:  # マス目が開いていて
@@ -93,8 +93,8 @@ def draw_board(board):
 
 # マス目の表示(枠と文字)
 def draw_text(i, j, str):
-    x = OFFSET_X + i * CELL_SIZE      # インデックスjからx座標を計算
-    y = OFFSET_Y + j * CELL_SIZE      # インデックスiからy座標を計算
+    x = OFFSET_X + i * CELL_SIZE      # インデックスiからx座標を計算
+    y = OFFSET_Y + j * CELL_SIZE      # インデックスjからy座標を計算
     canvas.create_rectangle(x, y, x + CELL_SIZE, y + CELL_SIZE) # 枠
     canvas.create_text(x + CELL_CENTER, y + CELL_CENTER,
 		       text=str, font=FONT, anchor=CENTER)

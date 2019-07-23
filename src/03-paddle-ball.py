@@ -25,8 +25,8 @@ class Ball:
     id: int
     x: int
     y: int
-    vx: int
     d: int
+    vx: int
     c: str
 
 @dataclass
@@ -42,10 +42,10 @@ class Paddle:
 # -------------------------
 # ball
 # ボールの描画・登録
-def make_ball(x, y, vx, d=3, c="black"):
+def make_ball(x, y, d, vx, c="black"):
     id = canvas.create_rectangle(x, y, x + d, y + d,
                                  fill=c, outline=c)
-    return Ball(id, x, y, vx, d, c)
+    return Ball(id, x, y, d, vx, c)
 
 # ボールの移動(左右)
 def move_ball(ball):
@@ -97,7 +97,7 @@ canvas.pack()
 tk.update()
 
 paddle = make_paddle(PADDLE_X0, PADDLE_Y0)
-ball = make_ball(200, BALL_Y0, BALL_VX, 10)
+ball = make_ball(200, BALL_Y0, 10, BALL_VX)
 
 # イベントと、イベントハンドラを連結する。
 canvas.bind_all('<KeyPress-Up>', up_paddle)
@@ -116,12 +116,10 @@ while True:
         break
     # ボールがパドルの左に届き、ボールの高さがパドルの幅に収まっている
     if (ball.x + ball.d >= paddle.x \
-        and paddle.y < ball.y + ball.d \
-        and ball.y < paddle.y + paddle.h):
+        and paddle.y <= ball.y <= paddle.y + paddle.h):
         change_paddle_color(paddle, random.choice(COLORS)) # 色を変える
         ball.vx = -ball.vx    # ボールの移動方向が変わる
     redraw_paddle(paddle)     # パドルの再描画
     redraw_ball(ball)         # ボールの再描画
-    tk.update_idletasks()     # イベント取得に必要
     tk.update()               # 描画が画面に反映される。
     time.sleep(DURATION)      # 次に描画するまで、sleep する。

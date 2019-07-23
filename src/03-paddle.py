@@ -69,6 +69,5 @@ canvas.bind_all('<KeyRelease-Down>', stop_paddle)
 while True:
     move_paddle(paddle)       # パドルの移動
     redraw_paddle(paddle)     # パドルの再描画
-    # tk.update_idletasks()     # イベント取得に必要
     tk.update()               # 描画が画面に反映される。
     time.sleep(DURATION)      # 次に描画するまで、 sleep する。

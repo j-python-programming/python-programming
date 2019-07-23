@@ -35,7 +35,7 @@ def draw_car(car, x, y):
     draw_car_at(x, y, length, height, wd, body_color, wheel_color)
 
 tk=Tk()
-canvas = Canvas(tk, width=500, height=400, bg="lightgray")
+canvas = Canvas(tk, width=500, height=400, bg="whitesmoke")
 canvas.pack()
 
 cars = [

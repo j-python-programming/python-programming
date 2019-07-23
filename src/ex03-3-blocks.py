@@ -177,7 +177,6 @@ id_text = canvas.create_text(400, 200, text="Press 'SPACE' to start",
 tk.update()
 
 while not game.start:    # ひたすら SPACE を待つ
-    tk.update_idletasks()
     tk.update()
     time.sleep(DURATION)
 
@@ -200,7 +199,7 @@ while True:
         break
     # ボールの下側がパドルの上面に届き、横位置がパドルと重なる
     if (paddle.y <= ball.y + ball.d <= paddle.y + paddle.h \
-        and paddle.x < ball.x + ball.d/2 < paddle.x + paddle.w):
+        and paddle.x <= ball.x + ball.d/2 <= paddle.x + paddle.w):
         change_paddle_color(paddle, random.choice(COLORS)) # 色を変える
         ball.vy = -ball.vy    # ボールの移動方向が変わる
 
@@ -218,6 +217,5 @@ while True:
 
     redraw_paddle(paddle)     # パドルの再描画
     redraw_ball(ball)         # ボールの再描画
-    tk.update_idletasks()     # イベント取得に必要
     tk.update()               # 描画が画面に反映される。
     time.sleep(DURATION)      # 次に描画するまで、sleepする。

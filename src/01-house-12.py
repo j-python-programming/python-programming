@@ -23,4 +23,4 @@ tk=Tk()
 canvas = Canvas(tk, width=500, height=400, bd=0)
 canvas.pack()
 
-draw_house_at(0, 100, 200, 200, "red", "lightgray")
+draw_house_at(0, 100, 200, 200, "red", "gray")

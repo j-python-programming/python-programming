@@ -24,7 +24,7 @@ vx = 10            # ボールの速度
 paddle_x, paddle_y= (540, 100) # パドルの初期位置
 paddle_vy = 10                 # パドルの速度
 
-while LOOP:  # 無限ループ
+while LOOP:  # メインループ
     for event in pygame.event.get():
         # 「閉じる」ボタンを処理する
         if event.type == pygame.QUIT: LOOP = False

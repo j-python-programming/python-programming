@@ -354,9 +354,9 @@ class Board():
     def setup(self):
         self.stage = STAGE_START
         # Groupを準備する
-        self.yellows = pygame.sprite.Group()    # 一番下のベルト
-        self.greens = pygame.sprite.Group()     # 真ん中のベルト
-        self.blues = pygame.sprite.Group()      # 一番上のベルト
+        self.yellows = pygame.sprite.Group()    # 一番下の列
+        self.greens = pygame.sprite.Group()     # 真ん中の列
+        self.blues = pygame.sprite.Group()      # 一番上の列
         seesaws = pygame.sprite.Group()    # シーソー
         self.performers = pygame.sprite.Group() # 二人のパフォーマー
         self.jumpboards = pygame.sprite.Group() # 四つのジャンプ台
@@ -413,9 +413,11 @@ class Board():
             self.animate()
             self.num_jumper -= 1
             if self.stage == STAGE_DOWN and self.num_jumper > 0:
+                self.stage = STAGE_NEXT
                 self.next()
             if self.stage != STAGE_QUIT:
                 if self.num_jumper == 0:
+                    self.stage = STAGE_OVER
                     self.game_over()
                 else:       # 再開する
                     self.stage = STAGE_RUN
@@ -595,7 +597,7 @@ class Board():
                         stand_by_player = person
                 if jumper.inactive_y == 0: # ジャンパーが着地
                     x_offset, y_rate = jumper.check(self.seesaw)
-                    #rateがゼロならステージオーバ
+                    #rateがゼロなら墜落
                     if y_rate==0:
                         self.stage = STAGE_DOWN
                     # 着地したジャンパーの情報を、立っているパフォーマにひき継ぐ

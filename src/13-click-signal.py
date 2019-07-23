@@ -14,7 +14,7 @@ def handles_mouseup(event):
     print(event.button)
     # 最初は以下のif文全体が無い状態で試しにプログラムを動かしてみましょう。
     if event.button == 1 and rect.collidepoint(event.pos):
-        signal = (signal + 1) % len(COLOR_LIST) # トグル式に変える
+        signal = (signal + 1) % len(COLOR_LIST) # 色をローテーションする
         color = COLOR_LIST[signal]
         pygame.draw.circle(screen, color, center, radius) # 円の描画
         pygame.display.flip()

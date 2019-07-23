@@ -13,6 +13,7 @@ GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
 BLUE = (0, 0, 255)
 LIGHTGRAY = (224, 224, 224)
+WHITE = (255, 255, 255)
 GRAY = (128, 128, 128)
 ORANGE = (255, 160, 96)
 
@@ -43,16 +44,16 @@ screen = pygame.display.set_mode((640, 320))   # screenを準備する
 draw = pygame.draw
 
 houses = [
-    House(50, 100, GREEN, LIGHTGRAY),
+    House(50, 100, GREEN, WHITE),
     House(100, 70, BLUE, GRAY),
-    House(70, 120, BLUE, LIGHTGRAY),
+    House(70, 120, BLUE, WHITE),
     House(50, 50, RED, ORANGE),
     ]
 
 x = 50
 y = 50
 
-screen.fill((255, 255, 255))   # 背景を白一色で塗りつぶす
+screen.fill(LIGHTGRAY)   # 背景を白一色で塗りつぶす
 for house in houses:
     draw_house(house, x, y)
     x += house.w + PAD

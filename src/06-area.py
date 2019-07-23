@@ -1,5 +1,5 @@
 # Python によるプログラミング：第 6 章
-#  例題 6.6 Polymorphism
+#  例題 6.5 Polymorphism
 # --------------------------
 # プログラム名: 06-area.py
 

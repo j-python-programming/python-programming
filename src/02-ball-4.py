@@ -20,8 +20,8 @@ class Ball:
     id: int
     x: int
     y: int
-    vx: int
     d: int
+    vx: int
     c: str
 
 @dataclass
@@ -31,11 +31,12 @@ class Border:
     top: int
     bottom: int
 
-# 直径 d は、省略されたら 3 に、色 c は、省略されたら "black" になる
-def make_ball(x, y, vx, d=3, c="black"):
+# 直径 d は、省略されたら 3 に、色 c は "black" に、
+# 速度 vx は、省略されたら 2 になる
+def make_ball(x, y, d=3, vx=2, c="black"):
     id = canvas.create_rectangle(x, y, x + d, y + d,
                                  fill=c, outline=c)
-    return Ball(id, x, y, vx, d, c)
+    return Ball(id, x, y, d, vx, c)
 
 # ボールの移動を、プログラム本体から抜き出した。
 def move_ball(ball):
@@ -66,7 +67,7 @@ make_walls(
     border.right - border.left,
     border.bottom - border.top
     )
-ball = make_ball(X0, Y0, VX0, D)
+ball = make_ball(X0, Y0, D, VX0)
 
 while True:
     move_ball(ball)   # まず、ボールを移動させる

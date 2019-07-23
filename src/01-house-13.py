@@ -28,5 +28,5 @@ W = 100
 H = 150
 PAD = 10
 for x in range(4):
-    draw_house_at(x0, 50, W, H, "red", "lightgray")
+    draw_house_at(x0, 50, W, H, "red", "gray")
     x0 += W + PAD

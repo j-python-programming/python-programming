@@ -65,6 +65,12 @@ SPEAR_HEIGHT = 40               # 槍の長さ
 SPEAR_VY = 5                    # 槍の落ちる速さ
 SPEAR_COLOR = "blue"            # 槍の色
 
+CANDY_BONUS = 50                # ボーナス点
+CANDY_WIDTH = 10                # ボーナスアイテムの幅
+CANDY_HEIGHT = 10               # ボーナスアイテムの高さ
+CANDY_VY = 4                    # ボーナスアイテムの落下速度
+CANDY_COLOR = "RED"             # ボーナスアイテムの色
+
 ADD_SCORE = 10                  # 得点の増加値
 
 # ----------------------------------
@@ -114,6 +120,11 @@ class Spear(MovingObject):
         MovingObject.__init__(self, id, x, y, w, h, 0, vy)
 
 
+class Candy(MovingObject):
+    def __init__(self, id, x, y, w, h, vy, c):
+        MovingObject.__init__(self, id, x, y, w, h, 0, vy)
+
+
 # ブロック
 @dataclass
 class Block:
@@ -144,7 +155,8 @@ class Box:
     score: int
     paddle_count: int
     spear: Spear
-    
+    candy: Candy
+
     def __init__(self, x, y, w, h, duration):
         self.west, self.north = (x, y)
         self.east, self.south = (x + w, y + h)
@@ -157,6 +169,7 @@ class Box:
         self.score = 0  # 得点
         self.paddle_count = 0    # パドルでボールを打った回数
         self.spear = None
+        self.candy = None
 
     # 壁の生成
     def make_walls(self):
@@ -177,6 +190,11 @@ class Box:
         id = canvas.create_rectangle(x, y, x + w, y + h, fill=c)
         return Spear(id, x, y, w, h, SPEAR_VY, c)
 
+    # ボーナスアイテムの生成
+    def create_candy(self, x, y, w=CANDY_WIDTH, h=CANDY_HEIGHT, c=CANDY_COLOR):
+        id = canvas.create_rectangle(x, y, x + w, y + h, fill=c)
+        return Candy(id, x, y, w, h, CANDY_VY, c)
+
     def create_block(self, x, y, w, h, pt, bc, c):  # ブロックの生成
         id = canvas.create_rectangle(x, y, x + w, y + h, fill=c)
         return Block(id, x, y, w, h, pt, bc, c)
@@ -184,13 +202,11 @@ class Box:
     def check_wall(self, ball):   # 壁に当たった時の処理
         if ball.y + ball.d + ball.vy >= self.south:  # 下に逃した
             return True
-        if ball.x + ball.vx <= self.west \
-           or ball.x + ball.d + ball.vx >= self.east:
+        if (ball.x + ball.vx <= self.west \
+            or ball.x + ball.d + ball.vx >= self.east):
             ball.vx = -ball.vx
-            return False
         if ball.y + ball.vy <= self.north:
             ball.vy = -ball.vy
-            return False
         return False
 
     def check_paddle(self, paddle, ball):  # ボールがパドルに当たった処理
@@ -205,7 +221,7 @@ class Box:
             and paddle.x <= ball.x + ball.d/2 + ball.vx <= paddle.x + paddle.w):
             # ボールの位置によって、反射角度を変える
             hit = True
-            ball.vx = int(5*(ball.x + ball.d/2 - paddle.x) / paddle.w) - 2
+            ball.vx = int(6*(ball.x + ball.d/2 - paddle.x) / paddle.w) - 3
             ball.vy = - ball.vy
         # 右から当たる
         elif (paddle.x <= ball.x + ball.vx <= paddle.x + paddle.w \
@@ -213,12 +229,12 @@ class Box:
             hit = True
             ball.vx = - ball.vx
         # パドルのボーダーチェック
-        if paddle.x + paddle.vx + paddle.w <= self.west:
-            self.paddle.stop()
-            paddle.x = self.west - paddle.w
-        elif self.east <= paddle.x + paddle.vx:
-            self.paddle.stop()
-            paddle.x = self.east
+        if paddle.x + paddle.vx <= self.west:
+            paddle.stop()
+            paddle.x = self.west
+        elif self.east <= paddle.x + paddle.vx + paddle.w:
+            paddle.stop()
+            paddle.x = self.east - paddle.w
         if hit: # パドルにボールが当たった
             self.paddle_count += 1
             if self.paddle_count % MULTI_BALL_COUNT == 0: # ボールを発生
@@ -227,6 +243,7 @@ class Box:
                                             BALL_DIAMETER,
                                             random.choice(VX0), BALL_VY)
                     self.balls.append(ball)
+                    self.movingObjs.append(ball)
             if self.paddle_count % PADDLE_SHORTEN_COUNT == 0: # パドルを短くするか？
                 if paddle.w > PADDLE_MIN_W:  # まだ短くできる！
                     paddle.w -= PADDLE_SHORTEN
@@ -266,6 +283,14 @@ class Box:
         else:
             return False
 
+    def check_candy(self, candy, paddle):
+        if (paddle.x <= candy.x <= paddle.x + paddle.w \
+            and candy.y + candy.h > paddle.y \
+            and candy.y <= paddle.y + paddle.h):  # ボーナスゲット！
+            return True
+        else:
+            return False
+
     def left_paddle(self, event):   # パドルを左に移動(Event処理)
         self.paddle.set_v(- self.paddle_v)
 
@@ -295,7 +320,6 @@ class Box:
                                      font=('FixedSys', 16))
         tk.update()
         while not self.run:    # ひたすらSPACEを待つ
-            tk.update_idletasks()
             tk.update()
             time.sleep(self.duration)
         canvas.delete(id_text)  # SPACE入力のメッセージを削除
@@ -340,22 +364,27 @@ class Box:
         canvas.bind_all('<KeyPress-space>', self.game_start)  # SPACEが押された
 
     def animate(self):
+        # 動くものを一括登録
+        self.movingObjs = [self.paddle] + self.balls
         while self.run:
-            # 動くものを一括登録
-            movingObjs = [self.paddle] + self.balls
-            if self.spear:
-                movingObjs.append(self.spear)
-            for obj in movingObjs:
+            for obj in self.movingObjs:
                 obj.move()          # 座標を移動させる
             if self.spear:
                 if self.check_spear(self.spear, self.paddle):
                     self.game_end("You are destroyed!")  # ゲームオーバの表示
                     break               # 槍に当たった
+            if self.candy:
+                if self.check_candy(self.candy, self.paddle):
+                    self.score += CANDY_BONUS
+                    self.update_score()
+                    canvas.delete(self.candy.id)
+                    self.movingObjs.remove(self.candy)
+                    self.candy = None
             for ball in self.balls:
                 if self.check_wall(ball):  # 壁との衝突処理
                     canvas.delete(ball.id)
                     self.balls.remove(ball)
-                    movingObjs.remove(ball)
+                    self.movingObjs.remove(ball)
                 self.check_paddle(self.paddle, ball)  # パドル反射
                 for block in self.blocks:
                     if self.check_block(block, ball): # ブロック衝突
@@ -374,15 +403,27 @@ class Box:
             if len(self.blocks) == 0:   # 最後のブロックを消したら
                 self.game_end("Clear!")  # ゲームオーバの表示
                 break                   # 抜ける
-            if self.spear==None and random.randint(0, 1000) < 10:  # 確率1%で発生
-                self.spear = self.create_spear(random.randint(self.west, self.east),
-                                               self.north)
-                movingObjs.append(self.spear)
+            if self.spear==None and random.random() < 0.01:  # 確率1%で発生
+                self.spear = self.create_spear(
+                    random.randint(self.west, self.east),
+                    self.north)
+                self.movingObjs.append(self.spear)
+            if self.candy==None and random.random() < 0.005:  # 確率0.5%で発生
+                self.candy = self.create_candy(
+                    random.randint(self.west, self.east),
+                    self.north)
+                self.movingObjs.append(self.candy)
+
             if self.spear and self.spear.y + self.spear.h >= self.south:
                 canvas.delete(self.spear.id)
-                movingObjs.remove(self.spear)
+                self.movingObjs.remove(self.spear)
                 self.spear = None
-            for obj in movingObjs:
+            if self.candy and self.candy.y + self.candy.h >= self.south:
+                canvas.delete(self.candy.id)
+                self.movingObjs.remove(self.candy)
+                self.candy = None
+
+            for obj in self.movingObjs:
                 obj.redraw()    # 移動後の座標で再描画(画面反映)
             time.sleep(self.duration)
             tk.update()

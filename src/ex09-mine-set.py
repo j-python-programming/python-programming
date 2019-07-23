@@ -40,16 +40,16 @@ class Board:
             self.is_open.add(loc)   # 「開いているマス」の集合に追加
 
     # 周囲のマス目を表すタプルのリストを作成する。
-    def neighbours(self, i, j):
-        x = [(i-1, j-1), (i-1, j), (i-1, j+1), 
-             (i,   j-1),           (i,   j+1), 
-             (i+1, j-1), (i+1, j), (i+1, j+1)]
+    def neighbors(self, i, j):
+        x = [(i-1, j-1), (i, j-1), (i+1, j-1),
+             (i-1, j  ),           (i+1, j  ),
+             (i-1, j+1), (i, j+1), (i+1, j+1)]
         return x
 
     # 周囲にある地雷の数を数える
     def count(self, i, j):
         c = 0
-        for x in self.neighbours(i, j):   # 周囲のマス目のリストから
+        for x in self.neighbors(i, j):   # 周囲のマス目のリストから
             if x in self.mine:            # 取り出したインデックスのタプルが
                  c = c + 1                # 地雷の集合に含まれていたら、加算
         return c
@@ -57,8 +57,8 @@ class Board:
 # ボードの描画
 def draw_board(board):
     canvas.delete("all")                  # 一旦クリアすす。
-    for i in range(board.width):          # xは幅方向の添え字
-        for j in range(board.height):     # yは、高さ方向の添え字
+    for i in range(board.width):          # i は幅方向の添え字
+        for j in range(board.height):     # j は、高さ方向の添え字
             text = ""
             if (i, j) in board.is_open:   # マス目が開いていて
                 if (i, j) in board.mine:  # 地雷だったら
@@ -71,8 +71,8 @@ def draw_board(board):
 
 # マス目の表示(枠と文字)
 def draw_text(i, j, str):
-    x = OFFSET_X + i * CELL_SIZE      # インデックスjからx座標を計算
-    y = OFFSET_Y + j * CELL_SIZE      # インデックスiからy座標を計算
+    x = OFFSET_X + i * CELL_SIZE      # インデックスiからx座標を計算
+    y = OFFSET_Y + j * CELL_SIZE      # インデックスjからy座標を計算
     canvas.create_rectangle(x, y, x + CELL_SIZE, y + CELL_SIZE) # 枠
     canvas.create_text(x + CELL_CENTER, y + CELL_CENTER,
                        text=str, font=FONT, anchor=CENTER)
@@ -80,8 +80,8 @@ def draw_text(i, j, str):
 # クリックした時の処理
 def on_click(event):
     x, y = (event.x, event.y)
-    i = math.floor((x - OFFSET_X) / CELL_SIZE) # xからインデックスjを計算
-    j = math.floor((y - OFFSET_Y) / CELL_SIZE) # yからインデックスiを計算
+    i = math.floor((x - OFFSET_X) / CELL_SIZE) # xからインデックスiを計算
+    j = math.floor((y - OFFSET_Y) / CELL_SIZE) # yからインデックスjを計算
     print(i, j)  # デバッグの際に、計算が正しく確認する方法の例
     if board.is_valid(i, j):  # 有効なインデックスなら
         board.open(i, j)      # マス目を開き

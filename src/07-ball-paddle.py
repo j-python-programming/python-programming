@@ -110,7 +110,6 @@ class Box:
             for obj in movingObjs:
                 obj.redraw()
             time.sleep(self.duration)
-            tk.update_idletasks()
             tk.update()
 
 tk = Tk()

@@ -29,8 +29,8 @@ id = canvas.create_rectangle(x, Y, x + D, Y + D,
                    # 四角 ( ボール ) を描画して、その id( 識別子 ) を取得する。
 for s in range(STEPS):
     x = x + vx          # x 座標の値を変える
-    if x + D >= 700 or x <= 100:
-        # もしボールの右端が 700 を越えたら、または左端が 100 未満になったら
+    if x + D >= 700:
+        # もしボールの右端が 700 を越えたら、
         vx = -vx        # 向きを反転させる
     canvas.coords(id, x, Y, x + D, Y + D)  # 新しい座標を設定
     tk.update()             # 描画が画面に反映される。

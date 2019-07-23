@@ -1,5 +1,5 @@
 # Python によるプログラミング：第 6 章
-#  例題 6.5 イベント処理でボールを増やす
+#  例題 6.4 イベント処理でボールを増やす
 # --------------------------
 # プログラム名: 06-box-ball-2.py
 
@@ -13,10 +13,13 @@ class Ball:
     x: int
     y: int
     d: int
-    vx: int
+    dx: int
+    dy: int
+    c: str = "black"
 
     def move(self):   # ボールを動かす
-        self.x = self.x + self.vx
+        self.x += self.dx
+        self.y += self.dy
 
     def redraw(self):     # ボールの再描画
         canvas.coords(self.id, self.x, self.y,
@@ -31,23 +34,30 @@ class Box:
         self.balls = []
         self.duration = duration
 
-    def create_ball(self, x, y, d, vx):  # ボールを生成する
+    def create_ball(self, x, y, d, dx, dy):  # ボールを生成する
         id = canvas.create_oval(x, y, x + d, y + d, fill="black")
-        return Ball(id, x, y, d, vx)
+        return Ball(id, x, y, d, dx, dy)
+
+    def make_walls(self):
+        canvas.create_rectangle(self.west, self.north,
+                                self.east, self.south)
 
     def check_wall(self, ball):  # 壁との衝突確認
         if ball.x <= self.west or ball.x + ball.d >= self.east:
-            ball.vx = - ball.vx
+            ball.dx = - ball.dx
+        if ball.y + ball.dy < self.north \
+           or ball.y + ball.d >= self.south:
+            ball.dy = -ball.dy
 
     def set_balls(self, n):  # ボールを生成してリスト化
         for x in range(n):
-            ball = self.create_ball(self.west,
-                                    self.north + 20 * x + 10,
-                                    10, 10)
+            ball = self.create_ball(self.west + 10*x,
+                                    self.north + 20*x + 10,
+                                    2*x + 10, 10, 10)
             self.balls.append(ball)
 
     def animate(self):
-        for x in range(100): # 100回繰り返す
+        while True:
             for ball in self.balls:
                 ball.move()    # ボールの移動
                 self.check_wall(ball)  # 壁との衝突チェック
@@ -58,15 +68,18 @@ class Box:
     def on_press_space(self, event):
         self.balls.append(
             self.create_ball(
-                self.west, (self.north + self.h)/2, 10, 10
+                self.west, (self.north + self.h)/2, 10, 10, 10
                 )
             )
 
+# 描画の準備
 tk=Tk()
 canvas = Canvas(tk, width=500, height=400, bd=0)
 canvas.pack()
 
-box = Box(100, 100, 200, 200, 0.05)
+# メインプログラム
+box = Box(100, 100, 300, 200, 0.05)
+box.make_walls()
 canvas.bind_all("<KeyPress-space>", box.on_press_space)
 box.set_balls(5)
 box.animate()

@@ -6,7 +6,7 @@ class Card:
     rank: int
 
     def print(self):
-        print("{}.{}".format(self.suit, self.rank))
+        print("{} の {}".format(self.suit, self.rank))
 
 cards = [
     Card("spade", 1),
