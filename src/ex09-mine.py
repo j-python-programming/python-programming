@@ -134,12 +134,12 @@ class Board:
                 self.draw_text(i, j, text)     # テキストの表示
 
     # マス目の表示(枠と文字)
-    def draw_text(self, i, j, str):
+    def draw_text(self, i, j, text):
         x = OFFSET_X + i * CELL_SIZE      # インデックスiからx座標を計算
         y = OFFSET_Y + j * CELL_SIZE      # インデックスjからy座標を計算
         canvas.create_rectangle(x, y, x + CELL_SIZE, y + CELL_SIZE) # 枠
         canvas.create_text(x + CELL_CENTER, y + CELL_CENTER,
-			   text=str, font=FONT, anchor=CENTER)
+			   text=text, font=FONT, anchor=CENTER)
 
 # -------------------
 tk = Tk()

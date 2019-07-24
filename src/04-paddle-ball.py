@@ -122,6 +122,5 @@ while True:
         ball.vx = -ball.vx    # ボールの移動方向が変わる
     redraw_paddle(paddle)     # パドルの再描画
     redraw_ball(ball)         # ボールの再描画
-    tk.update_idletasks()     # イベント取得に必要
     tk.update()               # 描画が画面に反映される。
     time.sleep(DURATION)      # 次に描画するまで、sleep する。

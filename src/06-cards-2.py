@@ -34,7 +34,7 @@ class CardTable:
             card = self.deck.pop()  # カードをデッキから一枚取り出し
             self.hand.append(card)  # ハンド手札に追加する。
 
-#main routine
+# メインプログラム
 table = CardTable()
 table.set_cards()
 table.deliver(5)

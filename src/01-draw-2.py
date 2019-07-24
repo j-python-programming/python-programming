@@ -1,7 +1,7 @@
 # Python によるプログラミング：第 1 章
 #    例題 1-4 (2) y = x * x のプロット
 # --------------------------
-# プログラム名: 01-draw-1.py
+# プログラム名: 01-draw-2.py
 
 from tkinter import *
 import math

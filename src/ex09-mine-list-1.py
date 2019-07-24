@@ -1,7 +1,7 @@
 # Python によるプログラミング：第 9 章　
-# 例題 9.3 乱数利用の地雷生成
+# 練習問題 9.3 乱数利用の地雷生成
 # --------------------------
-# プログラム名: 09-mine-list-1.py
+# プログラム名: ex09-mine-list-1.py
 
 from tkinter import Tk, Canvas, CENTER
 from dataclasses import dataclass, field
