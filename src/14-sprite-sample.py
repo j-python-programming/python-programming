@@ -1,6 +1,7 @@
 # Pythonによるプログラミング：第14章　SpriteとGroup
 # --------------------------
 # プログラム名: 14-sprite-sample.py
+# 本文P323 リスト14.7のサンプルプログラムです。
 
 import pygame
 

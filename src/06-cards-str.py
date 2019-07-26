@@ -2,6 +2,8 @@
 # 例題 6.6 strの導入
 # --------------------------
 # プログラム名: 06-cards-str.py
+# (本文中にプログラム名の記載がありませんが、P160
+#  リスト6.18の実行コードのサンプルです。）
 
 from dataclasses import dataclass
 import random

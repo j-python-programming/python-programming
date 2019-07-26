@@ -2,6 +2,7 @@
 #    例題 1-4 (2) y = x * x のプロット
 # --------------------------
 # プログラム名: 01-draw-2.py
+# 本文中でのプログラム名は、01-draw2.pyです。(P36)
 
 from tkinter import *
 import math

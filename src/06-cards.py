@@ -2,6 +2,7 @@
 #  例題 6.2 カードとカードテーブル
 # --------------------------
 # プログラム名: 06-cards.py
+# 本文、P147 リスト6.8, リスト6.9, リスト6.10
 
 from dataclasses import dataclass
 import random
